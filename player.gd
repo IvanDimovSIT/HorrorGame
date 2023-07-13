@@ -1,5 +1,6 @@
 extends CharacterBody3D
 
+signal page_pickup(page)
 
 @export var speed: float = 4.0
 @export var jump_velocity: float = 4.5
@@ -26,6 +27,7 @@ func _input(event: InputEvent) -> void:
 
 
 func handle_input(delta: float) -> void:
+	handle_page_pickup()
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = jump_velocity
 
@@ -62,3 +64,17 @@ func handle_physics(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	handle_input(delta)
 	handle_physics(delta)
+	
+func handle_page_pickup() -> void:
+	if not Input.is_action_pressed("pick_up_page"):
+		return
+	
+	$Head/RayCast3D.force_raycast_update()
+	if not $Head/RayCast3D.is_colliding():
+		print("nothing detected")
+		return
+				
+	var collider = $Head/RayCast3D.get_collider()
+	if collider.name == "Page" or collider.name == "PageCollision":
+		emit_signal("page_pickup", collider)
+		print("page detected")

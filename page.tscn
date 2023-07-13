@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://6wiqf1vyvq0a"]
+
+[ext_resource type="Script" path="res://page.gd" id="1_1ydsm"]
+[ext_resource type="PackedScene" uid="uid://ckt7wpuf4mfug" path="res://assets/page.glb" id="1_f838e"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n7nm0"]
+size = Vector3(0.758958, 0.902373, 0.220458)
+
+[node name="Page" type="MeshInstance3D"]
+script = ExtResource("1_1ydsm")
+
+[node name="page" parent="." instance=ExtResource("1_f838e")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+
+[node name="PageCollision" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PageCollision"]
+shape = SubResource("BoxShape3D_n7nm0")

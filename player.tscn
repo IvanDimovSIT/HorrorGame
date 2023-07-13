@@ -5,10 +5,11 @@
 [sub_resource type="Environment" id="Environment_kt572"]
 ssao_enabled = true
 glow_enabled = true
+glow_strength = 2.0
+glow_bloom = 0.1
 fog_enabled = true
 fog_light_color = Color(0.360784, 0.392157, 0.439216, 1)
-fog_sun_scatter = 0.15
-fog_density = 0.02
+fog_sun_scatter = 0.05
 fog_sky_affect = 0.8
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i5xb5"]
@@ -24,15 +25,22 @@ script = ExtResource("1_yfc0v")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0016135, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.400467, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.400467, 0.1278)
 environment = SubResource("Environment_kt572")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.446715, -0.339073)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.446715, -0.126316)
 light_energy = 1.5
 shadow_enabled = true
 spot_angle = 28.8632
 spot_angle_attenuation = 0.435275
+
+[node name="RayCast3D" type="RayCast3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.409915, -0.483818)
+target_position = Vector3(0, 0, -2.5)
+collide_with_areas = true
+debug_shape_custom_color = Color(0.235294, 0.490196, 0.878431, 1)
+debug_shape_thickness = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
