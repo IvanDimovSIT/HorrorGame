@@ -1,9 +1,13 @@
 extends CharacterBody3D
 
 
-@export var speed: float = 5.0
+@export var speed: float = 4.0
 @export var jump_velocity: float = 4.5
 @export var mouse_sensitivity: float = 0.01
+@export var run_speed_increase: float = 2.0
+@export var stamina_recover: float = 5.0
+@export var run_stamina_cost: float = 20.0
+var stamina: float = 100.0
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -27,9 +31,23 @@ func handle_input(delta: float) -> void:
 
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	
+	var speed_modifier = 1.0
+	if Input.is_action_pressed("move_back"):
+		speed_modifier = 0.8
+	
+	var stamina_cost = delta * run_stamina_cost
+	if Input.is_action_pressed("run") and stamina > stamina_cost and velocity:
+		speed_modifier *= run_speed_increase
+		stamina -= stamina_cost
+		print("stamina:", stamina)
+	else:
+		stamina += stamina_recover * delta
+		stamina = min(stamina, 100.0)
+	
 	if direction:
-		velocity.x = direction.x * speed
-		velocity.z = direction.z * speed
+		velocity.x = direction.x * speed * speed_modifier
+		velocity.z = direction.z * speed * speed_modifier
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)

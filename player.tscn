@@ -1,6 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://b2y4324qw1eb5"]
+[gd_scene load_steps=5 format=3 uid="uid://b2y4324qw1eb5"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_yfc0v"]
+
+[sub_resource type="Environment" id="Environment_kt572"]
+ssao_enabled = true
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(0.360784, 0.392157, 0.439216, 1)
+fog_sun_scatter = 0.15
+fog_density = 0.02
+fog_sky_affect = 0.8
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i5xb5"]
 
@@ -16,14 +25,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0016135, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.400467, 0)
+environment = SubResource("Environment_kt572")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.446715, -0.339073)
+light_energy = 1.5
+shadow_enabled = true
+spot_angle = 28.8632
+spot_angle_attenuation = 0.435275
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_i5xb5")
-
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.707298, 0)
-light_energy = 0.6
 
 [node name="PlayerDetectionArea" type="Area3D" parent="."]
 

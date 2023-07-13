@@ -1,10 +1,16 @@
 extends CharacterBody3D
 
+#maximum distance the enemy can see the player from
+@export var max_sight_range: float = 40.0
 
+#normal movement speed
 var movement_speed: float = 2.0
+#movement speed increase when chasing the player
 var chase_speed_increase: float = 1.5
+#increase in the detextion range when chasing
 var chase_proximity_instant_detection_increase: float = 2.0
 
+#current movement target use set_movement_target()
 var movement_target_position: Vector3 = Vector3(-3.0,0.0,2.0)
 
 const ACTIVITIES = ["PatrolingArea", "Chasing"]
@@ -16,6 +22,7 @@ var current_area: int #index of the current area
 
 @export var instant_sight_distance: float = 4.0
 
+#the player object
 @export var player: Node 
 
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
@@ -31,6 +38,7 @@ func _ready():
 	# Make sure to not await during _ready.
 	call_deferred("actor_setup")
 	current_area = 0
+	movement_target_position = self.position
 
 func actor_setup():
 	# Wait for the first physics frame so the NavigationServer can sync.
@@ -38,6 +46,7 @@ func actor_setup():
 
 	# Now that the navigation map is no longer empty, set the movement target.
 	set_movement_target(movement_target_position)
+	$enemy_anim/AnimationPlayer.play("Walk")
 
 func set_movement_target(movement_target: Vector3):
 	navigation_agent.set_target_position(movement_target)
@@ -79,8 +88,16 @@ func _on_timer_timeout():
 		current_activity = ACTIVITIES[1]
 		set_movement_target(player.position)
 		look_at_target()
+		$enemy_anim/AnimationPlayer.play("Chase", -1, 1.5)
 	elif is_at_location():
+		if current_activity == ACTIVITIES[1]:
+			current_activity = ACTIVITIES[0]
+			$enemy_anim/AnimationPlayer.play("Walk")
+			set_movement_target(get_area_closest_to_player())
+			look_at_target() 
+			return
 		current_activity = ACTIVITIES[0]
+		$enemy_anim/AnimationPlayer.play("Walk")
 		set_movement_target(pick_patrol_target())
 		look_at_target()
 
@@ -89,6 +106,9 @@ func can_see_player() -> bool:
 		return true
 	elif self.position.distance_to(player.position) <= instant_sight_distance:
 		return true
+		
+	if self.position.distance_to(player.position) > max_sight_range:
+		return false
 		
 	var overlaps = $SightCone.get_overlapping_areas()
 	print_debug("overlaps:",overlaps)
