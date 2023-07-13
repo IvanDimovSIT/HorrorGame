@@ -74,7 +74,7 @@ func _physics_process(delta):
 func look_at_target():
 	#print("looking at ",movement_target_position)
 	
-	var direction = movement_target_position
+	var direction = $NavigationAgent3D.get_next_path_position()
 	direction.y = self.position.y
 	if direction:
 		look_at(direction, Vector3.UP)
@@ -87,19 +87,16 @@ func _on_timer_timeout():
 	if can_see_player():
 		current_activity = ACTIVITIES[1]
 		set_movement_target(player.position)
-		look_at_target()
 		$enemy_anim/AnimationPlayer.play("Chase", -1, 1.5)
 	elif is_at_location():
 		if current_activity == ACTIVITIES[1]:
 			current_activity = ACTIVITIES[0]
 			$enemy_anim/AnimationPlayer.play("Walk")
 			set_movement_target(get_area_closest_to_player())
-			look_at_target() 
 			return
 		current_activity = ACTIVITIES[0]
 		$enemy_anim/AnimationPlayer.play("Walk")
 		set_movement_target(pick_patrol_target())
-		look_at_target()
 
 func can_see_player() -> bool:
 	if current_activity == ACTIVITIES[1] and self.position.distance_to(player.position) <= instant_sight_distance*chase_proximity_instant_detection_increase:
