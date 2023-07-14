@@ -4,32 +4,37 @@ extends CharacterBody3D
 @export var max_sight_range: float = 40.0
 
 #normal movement speed
-var movement_speed: float = 2.0
+@export var movement_speed: float = 2.0
+
 #movement speed increase when chasing the player
-var chase_speed_increase: float = 1.5
+@export var chase_speed_increase: float = 1.5
+
+@export var instant_sight_distance: float = 4.0
+
 #increase in the detextion range when chasing
-var chase_proximity_instant_detection_increase: float = 2.0
+@export var chase_proximity_instant_detection_increase: float = 2.
 
 #current movement target use set_movement_target()
 var movement_target_position: Vector3 = Vector3(-3.0,0.0,2.0)
 
-const ACTIVITIES = ["PatrolingArea", "Chasing"]
-var current_activity = ACTIVITIES[0]
-
-# array of arrays of points
-@export var areas = [[Vector3(0,0,0), Vector3(0,0,0)],[Vector3(0,0,0), Vector3(0,0,0)]]
-var current_area: int #index of the current area
-
-@export var instant_sight_distance: float = 4.0
+# array of arrays of node paths (of points)
+@export var areas = []
 
 #the player object
 @export var player: Node 
+
+const ACTIVITIES = ["PatrolingArea", "Chasing"]
+
+var current_activity = ACTIVITIES[0]
+
+#index of the current area
+var current_area: int 
 
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
 
 
 
-func _ready():
+func _ready() -> void:
 	# These values need to be adjusted for the actor's speed
 	# and the navigation layout.
 	navigation_agent.path_desired_distance = 0.5
@@ -40,7 +45,7 @@ func _ready():
 	current_area = 0
 	movement_target_position = self.position
 
-func actor_setup():
+func actor_setup() -> void:
 	# Wait for the first physics frame so the NavigationServer can sync.
 	await get_tree().physics_frame
 
@@ -52,7 +57,7 @@ func set_movement_target(movement_target: Vector3):
 	navigation_agent.set_target_position(movement_target)
 	movement_target_position = movement_target
 
-func _physics_process(delta):
+func _physics_process(delta) -> void:
 	if navigation_agent.is_navigation_finished():
 		return
 
@@ -71,7 +76,7 @@ func _physics_process(delta):
 	move_and_slide()
 
 
-func look_at_target():
+func look_at_target() -> void:
 	#print("looking at ",movement_target_position)
 	
 	var direction = $NavigationAgent3D.get_next_path_position()
@@ -80,10 +85,10 @@ func look_at_target():
 		look_at(direction, Vector3.UP)
 
 
-func _process(delta):
+func _process(delta) -> void:
 	look_at_target()
 
-func _on_timer_timeout():
+func _on_timer_timeout() -> void:
 	if can_see_player():
 		current_activity = ACTIVITIES[1]
 		set_movement_target(player.position)
@@ -97,6 +102,7 @@ func _on_timer_timeout():
 		current_activity = ACTIVITIES[0]
 		$enemy_anim/AnimationPlayer.play("Walk")
 		set_movement_target(pick_patrol_target())
+
 
 func can_see_player() -> bool:
 	if current_activity == ACTIVITIES[1] and self.position.distance_to(player.position) <= instant_sight_distance*chase_proximity_instant_detection_increase:
@@ -142,11 +148,11 @@ func pick_patrol_target() -> Vector3:
 	if randf() < 0.7: # in the same area
 		print("patroling in the same area")
 		var pottential_targets = areas[current_area]
-		return (pottential_targets[randi_range(0, pottential_targets.size()-1)])
+		return get_node_or_null(pottential_targets[randi_range(0, pottential_targets.size()-1)]).position
 	else:
 		print("moving to different area")
 		var target_area = areas[randi_range(0, areas.size()-1)]
-		return (target_area[randi_range(0, target_area.size()-1)])
+		return get_node_or_null(target_area[randi_range(0, target_area.size()-1)]).position
 
 func is_at_location() -> bool:
 	var target_ignore_y = Vector3(movement_target_position.x,self.position.y,movement_target_position.z)
@@ -156,7 +162,7 @@ func get_area_closest_to_player() -> Vector3:
 	var all_areas = []
 	for i in areas:
 		for j in i:
-			all_areas.append(j)
+			all_areas.append(get_node_or_null(j).position)
 	
 	var closest_dist = player.position.distance_to(all_areas[0])
 	var closest = all_areas[0]
