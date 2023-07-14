@@ -36,7 +36,7 @@ spot_angle = 28.8632
 spot_angle_attenuation = 0.435275
 
 [node name="RayCast3D" type="RayCast3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.409915, -0.483818)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.409915, -0.242753)
 target_position = Vector3(0, 0, -2.5)
 collide_with_areas = true
 debug_shape_custom_color = Color(0.235294, 0.490196, 0.878431, 1)

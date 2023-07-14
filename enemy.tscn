@@ -1,6 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://bmbl8n4nrqv36"]
+[gd_scene load_steps=15 format=3 uid="uid://bmbl8n4nrqv36"]
 
 [ext_resource type="Script" path="res://Enemy.gd" id="1_frdax"]
+[ext_resource type="Texture2D" uid="uid://8l7b16olbim5" path="res://assets/enemy_texture.png" id="2_2gl78"]
+[ext_resource type="Texture2D" uid="uid://cueu0g6yfg8bk" path="res://assets/enemy_normal.png" id="3_mo3lr"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6ioba"]
 
@@ -14,6 +16,7 @@ radius = 17.0
 resource_name = "Main"
 cull_mode = 2
 vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("2_2gl78")
 emission_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q4bey"]
@@ -152,7 +155,11 @@ bind/28/pose = Transform3D(-0.119703, 8.20508e-08, 1.792e-09, -7.32275e-08, 1.66
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x1rq2"]
 albedo_color = Color(0.0745098, 0.101961, 0.101961, 1)
-normal_scale = 1.01
+albedo_texture = ExtResource("2_2gl78")
+roughness = 0.8
+normal_enabled = true
+normal_scale = 0.1
+normal_texture = ExtResource("3_mo3lr")
 
 [sub_resource type="Animation" id="Animation_10wdu"]
 resource_name = "Chase"
