@@ -4,7 +4,7 @@
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_u3yep"]
 height = 10.4559
-radius = 0.745056
+radius = 0.423093
 
 [node name="Tree" type="StaticBody3D"]
 
