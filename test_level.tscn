@@ -40,7 +40,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.7264, 1.79002, 0)
 
 [node name="Enemy" parent="." node_paths=PackedStringArray("player") instance=ExtResource("3_hcr17")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.1093, 0.444367, 18.4643)
-areas = [[Vector3(-20, 0.733, -18), Vector3(-16.628, 0.948, -9)], [Vector3(-20, 0.733, 14.634), Vector3(-22.778, 0.733, -3.463)]]
 player = NodePath("../Player")
 
 [node name="terrain" type="StaticBody3D" parent="."]

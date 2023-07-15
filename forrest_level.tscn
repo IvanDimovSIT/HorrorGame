@@ -129,9 +129,9 @@ player = NodePath("../../Player")
 transform = Transform3D(0.445182, 0, 0.89544, 0, 1, 0, -0.89544, 0, 0.445182, -130.981, 19.0132, -116.915)
 player = NodePath("../../Player")
 
-[node name="Enemy" parent="." node_paths=PackedStringArray("player") instance=ExtResource("6_14adi")]
+[node name="Enemy" parent="." node_paths=PackedStringArray("patrol_locations", "player") instance=ExtResource("6_14adi")]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -44.2049, 1.73277, 74.525)
-areas = [[NodePath("../PatrolLocations/Forest/Area1pos1"), NodePath("../PatrolLocations/Forest/Area1pos2"), NodePath("../PatrolLocations/Forest/Area1pos3"), NodePath("../PatrolLocations/Forest/Area1pos4")], [NodePath("../PatrolLocations/Antena/Area2pos1"), NodePath("../PatrolLocations/Antena/Area2pos2"), NodePath("../PatrolLocations/Antena/Area2pos3")]]
+patrol_locations = NodePath("../PatrolLocations")
 player = NodePath("../Player")
 
 [node name="PatrolLocations" type="Node3D" parent="."]

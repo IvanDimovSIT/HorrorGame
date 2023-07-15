@@ -17,8 +17,10 @@ extends CharacterBody3D
 #current movement target use set_movement_target()
 var movement_target_position: Vector3 = Vector3(-3.0,0.0,2.0)
 
+@export var patrol_locations: Node
+
 # array of arrays of node paths (of points)
-@export var areas = []
+var areas = []
 
 #the player object
 @export var player: Node 
@@ -32,7 +34,9 @@ var current_area: int
 
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
 
-
+func init_areas() -> void:
+	for i in patrol_locations.get_children():
+		areas.append(i.get_children())
 
 func _ready() -> void:
 	# These values need to be adjusted for the actor's speed
@@ -42,6 +46,7 @@ func _ready() -> void:
 
 	# Make sure to not await during _ready.
 	call_deferred("actor_setup")
+	init_areas()
 	current_area = 0
 	movement_target_position = self.position
 
@@ -156,13 +161,13 @@ func pick_patrol_target() -> Vector3:
 	if randf() < 0.7 and current_area >= 0: # in the same area
 		print("patroling in the same area")
 		var pottential_targets = areas[current_area]
-		return get_node_or_null(pottential_targets[randi_range(0, pottential_targets.size()-1)]).position
+		return (pottential_targets[randi_range(0, pottential_targets.size()-1)]).position
 	else:
 		print("moving to different area")
 		var target_area_index = randi_range(0, areas.size()-1)
 		var target_area = areas[target_area_index]
 		current_area = target_area_index
-		return get_node_or_null(target_area[randi_range(0, target_area.size()-1)]).position
+		return (target_area[randi_range(0, target_area.size()-1)]).position
 
 func is_at_location() -> bool:
 	var target_ignore_y = Vector3(movement_target_position.x,self.position.y,movement_target_position.z)
@@ -172,7 +177,7 @@ func get_area_closest_to_player() -> Vector3:
 	var all_areas = []
 	for i in areas:
 		for j in i:
-			all_areas.append(get_node_or_null(j).position)
+			all_areas.append(j.position)
 	
 	var closest_dist = player.position.distance_to(all_areas[0])
 	var closest = all_areas[0]
