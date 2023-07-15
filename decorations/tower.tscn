@@ -10,7 +10,7 @@ roughness_texture = ExtResource("2_eyiae")
 roughness_texture_channel = 4
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5ik5i"]
-size = Vector3(2.00686, 10.5312, 1.72102)
+size = Vector3(2.38499, 10.5312, 2.1238)
 
 [node name="Tower" type="StaticBody3D"]
 

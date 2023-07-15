@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://bcisqxjwuoyd8"]
+
+[ext_resource type="ArrayMesh" uid="uid://1tkts5c0q1jv" path="res://assets/forrest/fence.obj" id="1_fvps5"]
+[ext_resource type="Texture2D" uid="uid://b6v2uavkre42w" path="res://assets/forrest/wooden_fence_texture.png" id="2_ixe7w"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_apo17"]
+albedo_texture = ExtResource("2_ixe7w")
+roughness = 0.9
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ir683"]
+size = Vector3(0.21611, 2.39817, 5.95342)
+
+[node name="WoodenFence" type="StaticBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+mesh = ExtResource("1_fvps5")
+surface_material_override/0 = SubResource("StandardMaterial3D_apo17")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("BoxShape3D_ir683")
