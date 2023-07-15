@@ -23,7 +23,7 @@ var movement_target_position: Vector3 = Vector3(-3.0,0.0,2.0)
 #the player object
 @export var player: Node 
 
-const ACTIVITIES = ["PatrolingArea", "Chasing"]
+const ACTIVITIES = ["PatrolingArea", "Chasing", "SearchingForPlayer"]
 
 var current_activity = ACTIVITIES[0]
 
@@ -77,8 +77,6 @@ func _physics_process(delta) -> void:
 
 
 func look_at_target() -> void:
-	#print("looking at ",movement_target_position)
-	
 	var direction = $NavigationAgent3D.get_next_path_position()
 	direction.y = self.position.y
 	if direction:
@@ -90,18 +88,27 @@ func _process(delta) -> void:
 
 func _on_timer_timeout() -> void:
 	if can_see_player():
+		if current_activity != ACTIVITIES[1]:
+			#play sound
+			pass
 		current_activity = ACTIVITIES[1]
 		set_movement_target(player.position)
 		$enemy_anim/AnimationPlayer.play("Chase", -1, 1.5)
 	elif is_at_location():
 		if current_activity == ACTIVITIES[1]:
+			current_activity = ACTIVITIES[2]
+			$enemy_anim/AnimationPlayer.play("Walk")
+			set_movement_target(player.position)
+		elif current_activity == ACTIVITIES[2]:
+			current_activity = ACTIVITIES[0]
+			set_movement_target(get_area_closest_to_player())
+			current_area = -1
+		else:
 			current_activity = ACTIVITIES[0]
 			$enemy_anim/AnimationPlayer.play("Walk")
-			set_movement_target(get_area_closest_to_player())
-			return
-		current_activity = ACTIVITIES[0]
-		$enemy_anim/AnimationPlayer.play("Walk")
-		set_movement_target(pick_patrol_target())
+			set_movement_target(pick_patrol_target())
+		
+	print("activity:", current_activity)
 
 
 func can_see_player() -> bool:
@@ -143,15 +150,18 @@ func can_see_player() -> bool:
 func pick_patrol_target() -> Vector3:
 	if randf() < 0.1: # move closer to player
 		print("moving to area closest to player")
+		current_area = -1
 		return get_area_closest_to_player()
 	
-	if randf() < 0.7: # in the same area
+	if randf() < 0.7 and current_area >= 0: # in the same area
 		print("patroling in the same area")
 		var pottential_targets = areas[current_area]
 		return get_node_or_null(pottential_targets[randi_range(0, pottential_targets.size()-1)]).position
 	else:
 		print("moving to different area")
-		var target_area = areas[randi_range(0, areas.size()-1)]
+		var target_area_index = randi_range(0, areas.size()-1)
+		var target_area = areas[target_area_index]
+		current_area = target_area_index
 		return get_node_or_null(target_area[randi_range(0, target_area.size()-1)]).position
 
 func is_at_location() -> bool:
