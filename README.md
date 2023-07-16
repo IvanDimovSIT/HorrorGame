@@ -1,4 +1,4 @@
 # HorrorGame
-Simple horror game made in godot v4.0.3
+Simple horror game made in Godot v4.0.3
 
 All models and textures are made in Blender
