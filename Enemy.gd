@@ -1,35 +1,35 @@
 extends CharacterBody3D
 
-#maximum distance the enemy can see the player from
+# Maximum distance the enemy can see the player from
 @export var max_sight_range: float = 40.0
 
-#normal movement speed
+# Normal movement speed
 @export var movement_speed: float = 2.0
 
-#movement speed increase when chasing the player
+# Movement speed increase when chasing the player
 @export var chase_speed_increase: float = 1.5
 
 @export var instant_sight_distance: float = 4.0
 
-#increase in the detextion range when chasing
+# Increase in the detextion range when chasing
 @export var chase_proximity_instant_detection_increase: float = 2.
 
-#current movement target use set_movement_target()
-var movement_target_position: Vector3 = Vector3(-3.0,0.0,2.0)
+# Current movement target use set_movement_target()
+var movement_target_position: Vector3 = Vector3(0.0,0.0,0.0)
 
 @export var patrol_locations: Node
 
-# array of arrays of node paths (of points)
+# Array of arrays of node paths (of points)
 var areas = []
 
-#the player object
+# The player object
 @export var player: Node 
 
 const ACTIVITIES = ["PatrolingArea", "Chasing", "SearchingForPlayer"]
 
 var current_activity = ACTIVITIES[0]
 
-#index of the current area
+# Index of the current area
 var current_area: int 
 
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
@@ -49,6 +49,7 @@ func _ready() -> void:
 	init_areas()
 	current_area = 0
 	movement_target_position = self.position
+	player.page_pickup.connect(_on_page_pickup)
 
 func actor_setup() -> void:
 	# Wait for the first physics frame so the NavigationServer can sync.
@@ -188,3 +189,13 @@ func get_area_closest_to_player() -> Vector3:
 			closest = i
 	
 	return closest
+
+func _on_page_pickup(page) -> void:
+	#TODO: increase movement speed and sight
+	
+	if current_activity != ACTIVITIES[1]:
+		print("moving to player position")
+		set_movement_target(player.position)
+		current_area = -1
+		current_activity = ACTIVITIES[2]
+		$enemy_anim/AnimationPlayer.play("Walk")

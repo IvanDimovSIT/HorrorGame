@@ -1,6 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://grpdiucfahnf"]
+[gd_scene load_steps=5 format=3 uid="uid://grpdiucfahnf"]
 
 [ext_resource type="ArrayMesh" uid="uid://cjo705tpcsxbw" path="res://assets/forrest/rocks/rock2.obj" id="1_q6fin"]
+[ext_resource type="Texture2D" uid="uid://w7q0i6dddvax" path="res://assets/forrest/rocks/rock_texture.png" id="2_mubm8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7dnuk"]
+albedo_texture = ExtResource("2_mubm8")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6ax57"]
 size = Vector3(3.47969, 4.47683, 2.85758)
@@ -9,6 +13,7 @@ size = Vector3(3.47969, 4.47683, 2.85758)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = ExtResource("1_q6fin")
+surface_material_override/0 = SubResource("StandardMaterial3D_7dnuk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.179873, 2.1999, 0.235887)

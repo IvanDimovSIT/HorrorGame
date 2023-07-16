@@ -1,6 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://mlf6qj32rbe"]
+[gd_scene load_steps=5 format=3 uid="uid://mlf6qj32rbe"]
 
 [ext_resource type="ArrayMesh" uid="uid://cd7lufv10pnwh" path="res://assets/forrest/tower/tower.obj" id="1_ex2uf"]
+[ext_resource type="Texture2D" uid="uid://ddrgj6fesatx6" path="res://assets/forrest/tower/dirty_metal_roughness.png" id="2_2bakk"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tfs2v"]
+albedo_color = Color(0.372549, 0.372549, 0.372549, 1)
+metallic = 1.0
+roughness = 0.6
+roughness_texture = ExtResource("2_2bakk")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5ik5i"]
 size = Vector3(2.38499, 10.5312, 2.1238)
@@ -9,6 +16,7 @@ size = Vector3(2.38499, 10.5312, 2.1238)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = ExtResource("1_ex2uf")
+surface_material_override/0 = SubResource("StandardMaterial3D_tfs2v")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.92328, 0)
