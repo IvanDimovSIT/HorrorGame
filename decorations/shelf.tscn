@@ -1,0 +1,26 @@
+[gd_scene load_steps=7 format=3 uid="uid://cwa2qprn2j2cu"]
+
+[ext_resource type="ArrayMesh" uid="uid://i53n558t5i02" path="res://assets/forrest/shelf/shelf.obj" id="1_aecov"]
+[ext_resource type="Texture2D" uid="uid://jixu83pxuvn2" path="res://assets/forrest/shelf/shelf_texture.png" id="2_cboya"]
+[ext_resource type="Texture2D" uid="uid://udm273eyohak" path="res://assets/forrest/shelf/shelf_metalic.png" id="3_6o4yh"]
+[ext_resource type="Texture2D" uid="uid://bl3u0mqoa17ny" path="res://assets/forrest/shelf/shelf_roughness.png" id="4_p7gye"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ouxt0"]
+albedo_texture = ExtResource("2_cboya")
+metallic = 1.0
+metallic_texture = ExtResource("3_6o4yh")
+roughness = 0.91
+roughness_texture = ExtResource("4_p7gye")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ro3fo"]
+size = Vector3(1.77771, 13.2884, 6.92695)
+
+[node name="Shelf" type="StaticBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_aecov")
+surface_material_override/0 = SubResource("StandardMaterial3D_ouxt0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.25653, 0)
+shape = SubResource("BoxShape3D_ro3fo")

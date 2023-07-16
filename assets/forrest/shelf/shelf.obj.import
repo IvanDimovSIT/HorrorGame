@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://i53n558t5i02"
+path="res://.godot/imported/shelf.obj-714d340b0b3b69eb5a3be0dc3f117459.mesh"
+
+[deps]
+
+files=["res://.godot/imported/shelf.obj-714d340b0b3b69eb5a3be0dc3f117459.mesh"]
+
+source_file="res://assets/forrest/shelf/shelf.obj"
+dest_files=["res://.godot/imported/shelf.obj-714d340b0b3b69eb5a3be0dc3f117459.mesh", "res://.godot/imported/shelf.obj-714d340b0b3b69eb5a3be0dc3f117459.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
