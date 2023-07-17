@@ -13,6 +13,8 @@ fog_sun_scatter = 0.05
 fog_sky_affect = 0.8
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i5xb5"]
+radius = 0.702304
+height = 2.43325
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sc8dq"]
 radius = 0.1844
@@ -25,7 +27,7 @@ script = ExtResource("1_yfc0v")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0016135, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.400467, 0.1278)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.400467, 0.142637)
 environment = SubResource("Environment_kt572")
 
 [node name="Flashlight" type="SpotLight3D" parent="Head"]
@@ -36,7 +38,7 @@ spot_angle = 28.8632
 spot_angle_attenuation = 0.435275
 
 [node name="RayCast3D" type="RayCast3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.409915, -0.242753)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.409915, -0.20035)
 target_position = Vector3(0, 0, -2.5)
 collide_with_areas = true
 debug_shape_custom_color = Color(0.235294, 0.490196, 0.878431, 1)
