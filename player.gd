@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 signal page_pickup(page)
+signal stamina_changed(stamina)
 
 @export var speed: float = 4.0
 @export var jump_velocity: float = 4.5
@@ -48,9 +49,11 @@ func handle_input(delta: float) -> void:
 		speed_modifier *= run_speed_increase
 		stamina -= stamina_cost
 		print("stamina:", stamina)
+		stamina_changed.emit(stamina)
 	else:
 		stamina += stamina_recover * delta
 		stamina = min(stamina, 100.0)
+		stamina_changed.emit(stamina)
 	
 	if direction:
 		velocity.x = direction.x * speed * speed_modifier

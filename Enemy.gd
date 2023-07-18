@@ -1,5 +1,9 @@
 extends CharacterBody3D
 
+signal kill_player
+
+const kill_range: float = 1.5
+
 # Maximum distance the enemy can see the player from
 @export var max_sight_range: float = 40.0
 
@@ -59,7 +63,7 @@ func actor_setup() -> void:
 	set_movement_target(movement_target_position)
 	$enemy_anim/AnimationPlayer.play("Walk")
 
-func set_movement_target(movement_target: Vector3):
+func set_movement_target(movement_target: Vector3) -> void:
 	navigation_agent.set_target_position(movement_target)
 	movement_target_position = movement_target
 
@@ -93,6 +97,9 @@ func _process(delta) -> void:
 	look_at_target()
 
 func _on_timer_timeout() -> void:
+	if can_kill_player():
+		kill_player.emit()
+	
 	if can_see_player():
 		if current_activity != ACTIVITIES[1]:
 			#play sound
@@ -199,3 +206,9 @@ func _on_page_pickup(page) -> void:
 		current_area = -1
 		current_activity = ACTIVITIES[2]
 		$enemy_anim/AnimationPlayer.play("Walk")
+		
+func can_kill_player() -> bool:
+	return ( current_activity == ACTIVITIES[1] 
+		and can_see_player()
+		and self.position.distance_to(player.position) <= kill_range )
+

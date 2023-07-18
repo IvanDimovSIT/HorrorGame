@@ -1,0 +1,161 @@
+[gd_scene load_steps=7 format=3 uid="uid://cojerymeuwxm4"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_1npas"]
+[ext_resource type="PackedScene" uid="uid://b7wx2toiqkswq" path="res://forrest_level.tscn" id="1_85vxi"]
+[ext_resource type="Script" path="res://HUD.gd" id="3_6p836"]
+[ext_resource type="Script" path="res://GUI.gd" id="3_pvokn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_57mo2"]
+bg_color = Color(0.407843, 0.0980392, 0.109804, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vw26j"]
+bg_color = Color(0.356863, 0.521569, 0.121569, 1)
+
+[node name="Main" type="Node"]
+script = ExtResource("1_1npas")
+
+[node name="ForrestLevel" parent="." instance=ExtResource("1_85vxi")]
+
+[node name="GUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_pvokn")
+
+[node name="HUD" type="Control" parent="GUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_6p836")
+
+[node name="StaminaBar" type="ProgressBar" parent="GUI/HUD"]
+custom_minimum_size = Vector2(30, 10)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -179.0
+offset_top = -43.0
+offset_right = -19.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_57mo2")
+theme_override_styles/fill = SubResource("StyleBoxFlat_vw26j")
+
+[node name="PageCountLabel" type="Label" parent="GUI/HUD"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "Pages: 1/10"
+
+[node name="Timer" type="Timer" parent="GUI/HUD"]
+wait_time = 2.0
+one_shot = true
+
+[node name="DeathScreen" type="Control" parent="GUI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="GUI/DeathScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="GUI/DeathScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -38.0
+offset_top = -13.0
+offset_right = 38.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 50
+text = "YOU DIED"
+
+[node name="DeathScreenTimer" type="Timer" parent="GUI/DeathScreen"]
+wait_time = 3.0
+one_shot = true
+
+[node name="SurviveScreen" type="Control" parent="GUI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="GUI/SurviveScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.752941, 0.752941, 0.752941, 1)
+
+[node name="Label" type="Label" parent="GUI/SurviveScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.780392, 0.780392, 0.780392, 1)
+theme_override_constants/shadow_outline_size = 10
+theme_override_font_sizes/font_size = 40
+text = "YOU SURVIVED
+"
+
+[node name="SurviveScreenTimer" type="Timer" parent="GUI/SurviveScreen"]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="page_picked_up" from="ForrestLevel" to="." method="_on_forrest_level_page_picked_up"]
+[connection signal="player_killed" from="ForrestLevel" to="." method="_on_forrest_level_player_killed"]
+[connection signal="player_stamina_changed" from="ForrestLevel" to="." method="_on_forrest_level_player_stamina_changed"]
+[connection signal="ready" from="ForrestLevel" to="." method="_on_forrest_level_ready"]
+[connection signal="timeout" from="GUI/HUD/Timer" to="GUI/HUD" method="_on_timer_timeout"]
+[connection signal="timeout" from="GUI/DeathScreen/DeathScreenTimer" to="GUI" method="_on_death_screen_timer_timeout"]
+[connection signal="timeout" from="GUI/SurviveScreen/SurviveScreenTimer" to="GUI" method="_on_survive_screen_timer_timeout"]
