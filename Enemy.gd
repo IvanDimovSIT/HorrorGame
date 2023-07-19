@@ -2,11 +2,7 @@ extends CharacterBody3D
 
 signal kill_player
 
-<<<<<<< HEAD
-const kill_range: float = 1.5
-=======
 const kill_range: float = 2.0
->>>>>>> Added bridge object
 
 # Maximum distance the enemy can see the player from
 @export var max_sight_range: float = 40.0
@@ -20,11 +16,7 @@ const kill_range: float = 2.0
 @export var instant_sight_distance: float = 4.0
 
 # Increase in the detextion range when chasing
-<<<<<<< HEAD
-@export var chase_proximity_instant_detection_increase: float = 2.
-=======
 @export var chase_proximity_instant_detection_increase: float = 2.0
->>>>>>> Added bridge object
 
 # Current movement target use set_movement_target()
 var movement_target_position: Vector3 = Vector3(0.0,0.0,0.0)
@@ -103,18 +95,10 @@ func look_at_target() -> void:
 
 func _process(delta) -> void:
 	look_at_target()
-<<<<<<< HEAD
-
-func _on_timer_timeout() -> void:
-	if can_kill_player():
-		kill_player.emit()
-	
-=======
 	if can_kill_player():
 		kill_player.emit()
 
 func _on_timer_timeout() -> void:	
->>>>>>> Added bridge object
 	if can_see_player():
 		if current_activity != ACTIVITIES[1]:
 			#play sound
