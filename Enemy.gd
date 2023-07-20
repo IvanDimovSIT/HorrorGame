@@ -197,7 +197,7 @@ func get_area_closest_to_player() -> Vector3:
 	return closest
 
 func _on_page_pickup(page) -> void:
-	#TODO: increase movement speed and sight
+	increase_difficulty()
 	
 	if current_activity != ACTIVITIES[1]:
 		print("moving to player position")
@@ -211,3 +211,9 @@ func can_kill_player() -> bool:
 		and can_see_player()
 		and self.position.distance_to(player.position) <= kill_range )
 
+
+func increase_difficulty() -> void:
+	movement_speed += 0.20
+	max_sight_range += 5.0
+	chase_speed_increase += 0.05
+	instant_sight_distance += 0.1

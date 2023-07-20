@@ -92,3 +92,4 @@ func toggle_flashlight() -> void:
 	else:
 		$Head/Flashlight.show()
 	#play sound
+	
